@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -11,6 +12,10 @@ namespace API.Controllers
 
     public class BaseAPIController : ControllerBase
     {
-        
+        private IMediator _mediator;
+
+        //shared controlled hence need checks 
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+
     }
 }
