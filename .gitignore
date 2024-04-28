@@ -3,8 +3,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
-appsettings.json
-#appsetting.Development.json
+#also ignore the app settings - as this can be used to store third party passwords and secrets
+appsettings.json 
 
 # User-specific files
 *.rsuser
