@@ -5,11 +5,11 @@ import {v4 as uuid} from "uuid";
 
 export default class ActivityStore {
     //activities: Activity[] = [];
-    activitiyRegistry = new Map<string, Activity>();
+    activityRegistry = new Map<string, Activity>();
     selectedActivity: Activity | undefined = undefined;
     editMode = false;
     loading = false;
-    loadingInitial = true;
+    loadingInitial = false;
 
     constructor() {
         makeAutoObservable(this)
@@ -17,19 +17,17 @@ export default class ActivityStore {
     }
 
     get activitiesByDate(){
-        return Array.from(this.activitiyRegistry.values()).sort((a,b) => 
+        return Array.from(this.activityRegistry.values()).sort((a,b) => 
             Date.parse(a.date) - Date.parse(b.date));
     }
 
     loadActivities = async () => {
-      
+        this.setLoadingInitial(true);
         try {
             const activities = await agent.Activities.list();
             runInAction(()=> {
                 activities.forEach(activity=> {
-                    activity.date = activity.date.split('T')[0];
-                    //this.activities.push(activity);
-                    this.activitiyRegistry.set(activity.id, activity);
+                    this.setActivity(activity);
                   })
                   this.setLoadingInitial(false);
             })
@@ -41,11 +39,45 @@ export default class ActivityStore {
     }
 }
 
+loadActivity = async (id: string) => {
+    let activity = this.getActivity(id);
+    if (activity) {
+        this.selectedActivity = activity;
+        return activity;
+    }
+    else {
+        this.setLoadingInitial(true);
+        try {
+            activity = await agent.Activities.details(id);
+            this.selectedActivity = activity;
+            this.setActivity(activity);
+            runInAction(() => this.selectedActivity = activity);
+            this.setLoadingInitial(false);
+            return activity;
+        }
+        catch (error){
+            console.log(error);
+            this.setLoadingInitial(false);
+        }
+    }
+}
+
+//helper methods
+
+private setActivity = (activity: Activity) => {
+    activity.date = activity.date.split('T')[0];
+    this.activityRegistry.set(activity.id, activity);
+}
+
+private getActivity = (id: string) => {
+    return this.activityRegistry.get(id);
+}
+
 setLoadingInitial = (state: boolean ) =>{
     this.loadingInitial = state;
 }
 
-selectActivity = (id: string) => {
+/*selectActivity = (id: string) => {
     //this.selectedActivity = this.activities.find(a => a.id === id);
     this.selectedActivity = this.activitiyRegistry.get(id);
 }
@@ -62,7 +94,7 @@ openForm = (id?: string) => {
 
 closeForm = () => {
     this.editMode = false;
-}
+}*/
 
 createActivity = async (activity: Activity) => {
     this.loading = true;
@@ -72,7 +104,7 @@ createActivity = async (activity: Activity) => {
         await agent.Activities.create(activity);
         runInAction(() => {
             //this.activities.push(activity);
-            this.activitiyRegistry.set(activity.id, activity);
+            this.activityRegistry.set(activity.id, activity);
             this.selectedActivity = activity;
             this.editMode = false;
             this.loading = false;
@@ -94,7 +126,7 @@ updateActivity = async (activity: Activity) => {
         await agent.Activities.update(activity);
         runInAction(() => {
             //this.activities = [...this.activities.filter(a => a.id !== activity.id), activity];
-            this.activitiyRegistry.set(activity.id, activity);
+            this.activityRegistry.set(activity.id, activity);
             this.selectedActivity = activity;
             this.editMode = false;
             this.loading = false;
@@ -118,7 +150,6 @@ deleteActivity = async (id : string) => {
         runInAction(()=> { 
             //this.activities = [...this.activities.filter(a => a.id !== id)];
             this.activitiyRegistry.delete(id);
-            if(this.selectedActivity?.id === id) this.cancelSelectedActivity;
             this.loading = false;
         })
 

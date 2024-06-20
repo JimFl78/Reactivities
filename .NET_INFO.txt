@@ -1,0 +1,104 @@
+CTRL + SHIFT + P = NUGET MANAGER
+CTRL + R  = RESTART CONSOLE DOTNET
+
+clear
+dotnet watch
+dotnet watch --no-hot-reload
+
+dotnet tool install --global dotnet-ef --version 7.0.0
+dotnet ef migrations add InitialCreate -s API -p Persistence
+
+ef migrations remove
+
+dotnet restore @ base project - refresh project when layers change
+
+
+REACT
+npm create vite@latest
+cd client-app
+npm install
+npm run dev
+--npm rebuild
+
+
+Benefits
+Fast - virtual DOM - tree data structure
+State change - only updates part of the DOM that needs to be updated
+Library not a framework - javascript / typescript
+Components portable - state can be pass
+React doesnt have two way binding - easier to debug
+Hooks - functions to hook into the lifecycle events - when component mounts 
+- useState() - track states
+- useEffect() - something happens when our component mounts
+- useWhateverWeWant()
+
+Typescript pros - Strong Typing, object oriented, better intellisense, access modifiers (class - public or private), future JS features, catch silly mistakes in dev, 3rd party library support, easy to learn
+
+Typescript cons - More upfront code, 3rd party libraries (package doesnt always include typescript), Strict mode is strict!,
+
+https://axios-http.com/docs/intro
+npm install axios
+
+https://react.semantic-ui.com/usage
+npm install semantic-ui-react@3.0.0-beta.0 semantic-ui-css
+
+interface - contract to define the class 
+Arrow functions
+
+
+Clean architecture recommendations
+- Testable
+- Independent from frameworks
+- Independent from the interface
+- Independent from the database
+
+CQRS 
+Persistance layer  - Update the database
+NoSQL - highly scalable for read operations
+Mediator - a go between our application and API (resolves a conflict) - communication is one way between the API 
+
+
+CancellationToken - allow us to cancel the request if no longer needed
+
+Debugger 
+May need to restart dotnet watch
+- Then click RUN and DEBUG - select .NET CORE Attach and find API.exe
+
+Install Mediatr from NuGet Gallery - to application layer
+
+
+Automapper - maps all attributes from object to another automatically
+
+https://transform.tools/json-to-typescript - Create an interface for JSON object
+
+Quick fixes
+ctor - constructor
+
+
+git add .
+
+Mobx React Lite - state management
+Why? - Better than Redux -> Mobx - Typescript easy to integrate
+Observables - state change over time - Promise is one time thing
+Actions / Reactions / Autorun
+
+npm install mobx mobx-react-lite
+
+mobx.js.org/actions.html
+
+ROUTING
+--------
+React Router - most popular - https://reactrouter.com/en/main/start/overview
+API - <BrowserRouter> 
+<Route>
+<Link>
+<NavLink>
+<Redirect>
+
+Hooks 
+useHistory
+useLocation
+useParams
+useRouteMatch
+
+npm install react-router-dom
