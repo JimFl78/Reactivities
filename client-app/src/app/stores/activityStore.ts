@@ -159,7 +159,7 @@ deleteActivity = async (id : string) => {
         await agent.Activities.delete(id);
         runInAction(()=> { 
             //this.activities = [...this.activities.filter(a => a.id !== id)];
-            this.activitiyRegistry.delete(id);
+            this.activityRegistry.delete(id);
             this.loading = false;
         })
 

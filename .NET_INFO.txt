@@ -1,6 +1,12 @@
 CTRL + SHIFT + P = NUGET MANAGER
 CTRL + R  = RESTART CONSOLE DOTNET
 
+NUGET Gallery Extension - Next to Terminal (NUGET)
+
+Install #c extensions - View extensions
+https://medium.com/checkout-com-techblog/10-extensions-to-increase-your-c-productivity-in-vs-code-ea6cea664a19
+
+
 clear
 dotnet watch
 dotnet watch --no-hot-reload
@@ -106,3 +112,15 @@ npm install react-router-dom
 Front End - React Calendar
 npm install react-calendar
 npm install @types/react-calendar
+
+
+Error handling and Validation 
+fluentvalidation  - new library
+https://docs.fluentvalidation.net/en/latest/index.html
+
+
+Dont use Exceptions in programme control flow - they are heavy
+
+npm install react-toastify
+
+dotnet ef database drop -s API -p Persistence
